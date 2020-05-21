@@ -15,6 +15,7 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   int height = 150;
   int weight = 60;
+  int age = 18;
   Gender selectedGender;
 
   @override
@@ -79,8 +80,8 @@ class _InputPageState extends State<InputPage> {
                     textBaseline: TextBaseline.alphabetic,
                     children: <Widget>[
                       Text(
-                        height.toString(),
-                        style: kNumberTextStyle
+                          height.toString(),
+                          style: kNumberTextStyle
                       ),
                       Text(
                         'cm',
@@ -95,9 +96,9 @@ class _InputPageState extends State<InputPage> {
                       thumbColor: Color(0xFFEB1555),
                       overlayColor: Color(0x29EB1555),
                       thumbShape:
-                        RoundSliderThumbShape(enabledThumbRadius: 15),
+                      RoundSliderThumbShape(enabledThumbRadius: 15),
                       overlayShape:
-                        RoundSliderOverlayShape(overlayRadius: 30),
+                      RoundSliderOverlayShape(overlayRadius: 30),
                     ),
                     child: Slider(
                       value: height.toDouble(),
@@ -138,13 +139,18 @@ class _InputPageState extends State<InputPage> {
                           children: <Widget>[
                             RoundIconButton(
                               icon: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                setState(() {
+                                  weight--;
+                                });
+                              },
                             ),
                             SizedBox(
                               width: 10,
                             ),
                             RoundIconButton(
                               icon: FontAwesomeIcons.plus,
-                              func: (){
+                              onPressed: () {
                                 setState(() {
                                   weight++;
                                 });
@@ -159,6 +165,43 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: ReusableCard(
                     colour: kActiveCardColor,
+                    cardChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'AGE',
+                          style: kLabelTextStyle,
+                        ),
+                        Text(
+                          age.toString(),
+                          style: kNumberTextStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            RoundIconButton(
+                              icon: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                setState(() {
+                                  age--;
+                                });
+                              },
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            RoundIconButton(
+                              icon: FontAwesomeIcons.plus,
+                              onPressed: () {
+                                setState(() {
+                                  age++;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -177,14 +220,16 @@ class _InputPageState extends State<InputPage> {
 }
 
 class RoundIconButton extends StatelessWidget {
-  RoundIconButton({this.icon, this.func});
+  RoundIconButton({this.icon, this.onPressed});
+
   final IconData icon;
-  final Function func;
+  final Function onPressed;
+
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
       child: Icon(icon),
-      onPressed: (){func;},
+      onPressed: onPressed,
       elevation: 6.0,
       constraints: BoxConstraints.tightFor(
         width: 56.0,
